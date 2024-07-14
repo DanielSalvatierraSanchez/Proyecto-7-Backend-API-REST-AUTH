@@ -4,23 +4,21 @@ const { generateToken } = require('../../utils/jwt')
 
 const registerUser = async (req, res, next) => {
     try {
-        const newUser = new User(req.body)
-        const { userName, email, password } = req.body
+        const { userName, email, password } = req.body;
+        const newUser = new User(req.body);
         const userDuplicated = await User.findOne({
             $or: [{ userName }, { email }]
-        })
+        });
 
         if (userDuplicated) {
-            return res.status(400).json('User o Email duplicados.')
-        }
-        if (password.length < 8) {
-            return res
-                .status(400)
-                .json('La password debe de tener al menos 8 caracteres.')
+            return res.status(400).json('Nombre de usuario o Email duplicados.')
+        };
+        if (password.length < 8 || password.length > 25) {
+            return res.status(400).json('La password debe de tener entre 8 y 25 caracteres.')
         }
 
         const userSaved = await newUser.save()
-        return res.status(201).json(userSaved)
+        return res.status(201).json({ message: 'Usuario creado correctamente.', userSaved })
     } catch (error) {
         return res.status(400).json('Fallo en registerUser')
     }

@@ -5,7 +5,7 @@ const usersRoutes = require('express').Router();
 
 usersRoutes.post("/register", registerUser)
 usersRoutes.post("/login", loginUser)
-usersRoutes.get("/", [isAdmin], allUsers)
-usersRoutes.delete("/delete/:id", [isAuth], deleteUser)
+usersRoutes.get("/", allUsers)
+usersRoutes.delete("/delete/:id", deleteUser)
 
 module.exports = usersRoutes;
