@@ -17,7 +17,7 @@ const postATM = async (req, res, next) => {
 
 const getATMs = async (req, res, next) => {
     try {
-        const allATMs = await ATM.find();
+        const allATMs = await ATM.find().populate("cassettes");
         if (!allATMs.length) {
             return res.status(400).json('No hay ningún ATM instalado.');
         }
