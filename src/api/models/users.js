@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
         email: { type: String, required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
         password: { type: String, required: true, //minLength: 8, maxLength: 25 
         },
+        role: { type: String, required: true, enum: ["admin", "user"], default: "user" },
     },
     {
         timestamps: true,

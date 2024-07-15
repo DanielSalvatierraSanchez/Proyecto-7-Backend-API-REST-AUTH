@@ -2,14 +2,14 @@ const Cassette = require("../models/cassettes");
 
 const postCassette = async (req, res, next) => {
     try {
-        const { denomination } = req.body;
+        const { denomination, count } = req.body;
         const cassetteDuplicated = await Cassette.findOne({ denomination });
         if (cassetteDuplicated) {
-            return res.status(400).json({ message: 'Ya existe un cajetín como ese, pon otro diferente.' })
+            return res.status(400).json({ message: `Ya existe un cajetín ${denomination}€, pon otro diferente.` })
         }
         const newCassette = new Cassette(req.body);
         const cassetteSaved = await newCassette.save();
-        return res.status(201).json(cassetteSaved);
+        return res.status(201).json({ message: `Cajetín de ${denomination} cargado con ${count}€.`, cassetteSaved });
     } catch (error) {
         return res.status(400).json('Fallo de postCassette');
     }
@@ -34,7 +34,7 @@ const updateCassette = async (req, res, next) => {
         cassetteModify._id = id;
         const cassetteUpdated = await Cassette.findByIdAndUpdate(id, cassetteModify, { new: true });
         if (!cassetteUpdated) {
-            return res.status(400).json({ message: 'No hay ningun cajetín con esa denominación.' });
+            return res.status(400).json({ message: `No hay ningun cajetín de ${denomination}€.` });
         }
         return res.status(200).json({ message: 'Cajetín actualizado correctamente.', cassetteUpdated });
     } catch (error) {

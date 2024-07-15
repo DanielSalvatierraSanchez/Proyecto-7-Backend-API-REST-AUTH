@@ -26,18 +26,18 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     try {
-        const { userName } = req.params;
-        const user = await User.findOne({ userName })
+        const { userName, password } = req.body;
+        const userLogin = await User.findOne({ userName })
 
-        if (userName) {
-            if (bcrypt.compareSync(req.body.password, user.password)) {
-                const token = generateToken(user._id)
-                return res.status(200).json({ user, token })
+        if (userLogin) {
+            if (bcrypt.compareSync(password, userLogin.password)) {
+                const token = generateToken(userLogin._id)
+                return res.status(200).json({ message: 'LOGIN realizado correctamente.', userLogin, token })
             } else {
                 return res.status(400).json('El usuario o la contraseña son incorrectos.')
             }
         } else {
-            return res.status(400).json('El usuario o la contraseña son incorrectos.')
+            return res.status(400).json('El usuario no existe.')
         }
     } catch (error) {
         return res.status(400).json('Fallo en loginUser.')
@@ -47,7 +47,7 @@ const loginUser = async (req, res, next) => {
 const allUsers = async (req, res, next) => {
     try {
         const allUsers = await User.find().select("-password -email")
-        return res.status(200).json({ message: 'Listado completo de usuarios.', allUsers })
+        return res.status(200).json({ message: 'Listado de usuarios.', allUsers })
     } catch (error) {
         return res.status(400).json('Fallo en allUsers')
     }
