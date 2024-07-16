@@ -9,12 +9,10 @@ const postATM = async (req, res, next) => {
         // }
         const newATM = new ATM(req.body)
         const ATMSaved = await newATM.save()
-        return res
-            .status(201)
-            .json({
-                message: `ATM ${model} instalado correctamente.`,
-                ATMSaved
-            })
+        return res.status(201).json({
+            message: `ATM ${model} instalado correctamente.`,
+            ATMSaved
+        })
     } catch (error) {
         return res.status(400).json('Fallo de postATM')
     }
@@ -38,12 +36,10 @@ const getATMByUbication = async (req, res, next) => {
     try {
         const { ubication } = req.params
         if (ubication !== 'Front Access' && ubication !== 'Rear Access') {
-            return res
-                .status(400)
-                .json({
-                    message:
-                        'Ubicación mal introducida. Introduce Front Access o Rear Access'
-                })
+            return res.status(400).json({
+                message:
+                    'Ubicación mal introducida. Introduce Front Access o Rear Access'
+            })
         }
         const searchATMByUbication = await ATM.find({ ubication })
         if (!searchATMByUbication.length) {
@@ -51,12 +47,10 @@ const getATMByUbication = async (req, res, next) => {
                 .status(400)
                 .json({ message: 'No hay ningun ATM con esa característica.' })
         }
-        return res
-            .status(200)
-            .json({
-                message: 'Estos son los ATMs encontrados segun su ubicación.',
-                searchATMByUbication
-            })
+        return res.status(200).json({
+            message: 'Estos son los ATMs encontrados segun su ubicación.',
+            searchATMByUbication
+        })
     } catch (error) {
         return res.status(400).json('Fallo de getATMByModel')
     }

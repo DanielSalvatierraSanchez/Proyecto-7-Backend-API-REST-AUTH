@@ -37,13 +37,11 @@ const loginUser = async (req, res, next) => {
         if (userLogin) {
             if (bcrypt.compareSync(password, userLogin.password)) {
                 const token = generateToken(userLogin._id)
-                return res
-                    .status(200)
-                    .json({
-                        message: 'LOGIN realizado correctamente.',
-                        userLogin,
-                        token
-                    })
+                return res.status(200).json({
+                    message: 'LOGIN realizado correctamente.',
+                    userLogin,
+                    token
+                })
             } else {
                 return res
                     .status(400)
@@ -81,12 +79,10 @@ const updateUsers = async (req, res, next) => {
         const userUpdated = await User.findByIdAndUpdate(id, allParams, {
             new: true
         }).select('-password')
-        return res
-            .status(200)
-            .json({
-                message: 'Datos de usuario actualizados correctamente.',
-                userUpdated
-            })
+        return res.status(200).json({
+            message: 'Datos de usuario actualizados correctamente.',
+            userUpdated
+        })
     } catch (error) {
         return res.status(400).json('Fallo de updateUsers')
     }
