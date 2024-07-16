@@ -5,15 +5,10 @@ const userSchema = new mongoose.Schema(
     {
         userName: { type: String, required: true, minLength: 1, maxLength: 25 },
         email: { type: String, required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-        password: { type: String, required: true, //minLength: 8, maxLength: 25 
-        },
+        password: { type: String, required: true, },
         role: { type: String, required: true, enum: ["admin", "user"], default: "user" },
-    },
-    {
-        timestamps: true,
-        collection: 'users',
-    }
-);
+        atms: [{ type: mongoose.Types.ObjectId, ref: "atms" }]
+    });
 
 userSchema.pre('save', function() {
     this.password = bcrypt.hashSync(this.password, 10)

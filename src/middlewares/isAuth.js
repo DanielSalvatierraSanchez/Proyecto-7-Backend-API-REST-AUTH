@@ -8,9 +8,9 @@ const isAuth = async (req, res, next) => {
 
         const { id } = verifyToken(parsedToken)
 
-        const userAuth = await User.findById(id)
-        userAuth.password = null
-        req.userAuth = userAuth
+        const user = await User.findById(id)
+        user.password = null
+        req.user = user
         next()
     } catch (error) {
         return res.status(400).json('No estas autozizado. Primero debes de hacer el login.')

@@ -8,14 +8,14 @@ const isAdmin = async (req, res, next) => {
 
         const { id } = verifyToken(parsedToken)
 
-        const userAdmin = await User.findById(id)
+        const user = await User.findById(id)
 
-        if (userAdmin === 'admin') {
-            userAdmin.password = null
-            req.userAdmin = userAdmin
+        if (user.role === 'admin') {
+            user.password = null
+            req.user = user
             next()
         } else {
-            return res.status(400).json('No puedes hacer la tarea porque no tienes permisos de "Admin".')
+            return res.status(400).json('No puedes hacer la tarea porque no tienes permisos de Admin.')
         }
     } catch (error) {
         return res.status(400).json('No estas autozizado.')

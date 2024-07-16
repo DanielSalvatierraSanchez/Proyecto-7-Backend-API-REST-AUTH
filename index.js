@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { connectDB } = require('./src/config/db');
-const ATMsRoutes = require('./src/api/routes/atm');
+const ATMsRoutes = require('./src/api/routes/atms');
 const cassettesRoutes = require('./src/api/routes/cassettes');
 const usersRoutes = require('./src/api/routes/users');
 
