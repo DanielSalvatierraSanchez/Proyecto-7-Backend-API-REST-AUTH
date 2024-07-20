@@ -4,9 +4,9 @@ const User = require('../api/models/users')
 const isAuth = async (req, res, next) => {
     try {
         const token = req.headers.authorization;
-        const parsedToken = await token.replace('Bearer ', '')
+        const modifyToken = await token.replace('Bearer ', '')
 
-        const { id } = verifyToken(parsedToken)
+        const { id } = verifyToken(modifyToken)
 
         const user = await User.findById(id)
         user.password = null

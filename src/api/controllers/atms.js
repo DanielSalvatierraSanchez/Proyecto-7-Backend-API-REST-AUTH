@@ -4,15 +4,12 @@ const postATM = async (req, res, next) => {
     try {
         const { model } = req.body
         const ATMDuplicated = await ATM.findOne({ model })
-        // if (ATMDuplicated) {
-        //     return res.status(400).json({ message: `El ATM ${model} ya existe, crea otro diferente.` })
-        // }
+        if (ATMDuplicated) {
+            return res.status(400).json({ message: `El ATM ${model} ya existe, crea otro diferente.` })
+        }
         const newATM = new ATM(req.body)
         const ATMSaved = await newATM.save()
-        return res.status(201).json({
-            message: `ATM ${model} instalado correctamente.`,
-            ATMSaved
-        })
+        return res.status(201).json({ message: `ATM ${model} instalado correctamente.`, ATMSaved })
     } catch (error) {
         return res.status(400).json('Fallo de postATM')
     }
@@ -24,9 +21,7 @@ const getATMs = async (req, res, next) => {
         if (!allATMs.length) {
             return res.status(400).json('No hay ningún ATM instalado.')
         }
-        return res
-            .status(200)
-            .json({ message: 'Listado completo de ATMs.', allATMs })
+        return res.status(200).json({ message: 'Listado completo de ATMs.', allATMs })
     } catch (error) {
         return res.status(400).json('Fallo de getATMs')
     }
@@ -36,21 +31,13 @@ const getATMByUbication = async (req, res, next) => {
     try {
         const { ubication } = req.params
         if (ubication !== 'Front Access' && ubication !== 'Rear Access') {
-            return res.status(400).json({
-                message:
-                    'Ubicación mal introducida. Introduce Front Access o Rear Access'
-            })
+            return res.status(400).json({ message: 'Ubicación mal introducida. Introduce: Front Access o Rear Access' })
         }
-        const searchATMByUbication = await ATM.find({ ubication })
+        const searchATMByUbication = await ATM.find({ ubication }).populate('cassettes')
         if (!searchATMByUbication.length) {
-            return res
-                .status(400)
-                .json({ message: 'No hay ningun ATM con esa característica.' })
+            return res.status(400).json({ message: 'No hay ningún ATM con esa característica.' })
         }
-        return res.status(200).json({
-            message: 'Estos son los ATMs encontrados segun su ubicación.',
-            searchATMByUbication
-        })
+        return res.status(200).json({ message: 'Estos son los ATMs encontrados según su ubicación.', searchATMByUbication })
     } catch (error) {
         return res.status(400).json('Fallo de getATMByModel')
     }
@@ -80,7 +67,7 @@ const deleteATM = async (req, res, next) => {
         const { id } = req.params
         const ATMDeleted = await ATM.findByIdAndDelete(id)
         if (!ATMDeleted) {
-            return res.status(400).json({ message: 'El ATM ya no existe.' })
+            return res.status(400).json({ message: 'El ATM no existe.' })
         }
         return res
             .status(200)
@@ -89,5 +76,22 @@ const deleteATM = async (req, res, next) => {
         return res.status(400).json('Fallo de deleteATM')
     }
 }
+
+/*const deleteATMOfUser = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { cassettes } = req.body;
+        //const ATMFound = await ATM.findOne({ $or: [{_id: id}, {model}] });
+        const ATMFound = await ATM.find({cassettes});
+        if (!ATMFound) {
+            return res.status(400).json('No hay ningún cajetín que coincida con el modelo indicado');
+        }
+        //const carDeleted = await Car.findByIdAndDelete({$or: [{_id:id}, {model}]}, {new: true});
+        const ATMDeleted = await ATM.findByIdAndDelete(id, {cassettes}, {new: true});
+        return res.status(200).json(ATMDeleted);
+    } catch (error) {
+        return res.status(400).json('Fallo en deleteATMOfUser');
+    }
+};*/
 
 module.exports = { postATM, getATMs, getATMByUbication, updateATM, deleteATM }

@@ -27,16 +27,16 @@ const getCassettes = async (req, res, next) => {
     }
 }
 
-const getCassetteById = async (req, res, next) => {
+const getCassetteByDenomination = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const searchCassetteById = await Cassette.findById(id);
-        if (!searchCassetteById) {
-            return res.status(400).json({ message: `No hay ningún cajetín instalado con ese Id.` });
+        const { denomination } = req.params;
+        const searchCassetteByDenomination = await Cassette.findOne({denomination});
+        if (!searchCassetteByDenomination) {
+            return res.status(400).json({ message: `No hay ningún cajetín instalado de esa denominación.` });
         }
-        return res.status(200).json({ message: 'Aquí está el cajetín solicitado:', searchCassetteById });
+        return res.status(200).json({ message: 'Aquí está el cajetín solicitado:', searchCassetteByDenomination });
     } catch (error) {
-        return res.status(400).json('Fallo de getCassetteById');
+        return res.status(400).json('Fallo de getCassetteByDenomination');
     }
 }
 
@@ -44,14 +44,18 @@ const updateCassette = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { count } = req.body;
-        const cassetteModify = new Cassette(req.body);
-        cassetteModify._id = id;
-        const cassetteUpdated = await Cassette.findByIdAndUpdate(id, cassetteModify, { new: true });
-        if (!cassetteUpdated) {
-            return res.status(400).json({ message: `No hay ningun cajetín de ${denomination}€.` });
-        }
+
         if (count === 0 || count > 2500 ) {
             return res.status(400).json('Se debe de introducir un mínimo de 1 billete y un máximo de 2500 billetes.')
+        }
+        
+        const cassetteModify = new Cassette(req.body);
+        cassetteModify._id = id;
+        
+        const cassetteUpdated = await Cassette.findByIdAndUpdate(id, cassetteModify, { new: true });
+        
+        if (!cassetteUpdated) {
+            return res.status(400).json({ message: `No existe ese cajetín.` });
         }
         return res.status(200).json({ message: 'Cajetín actualizado correctamente.', cassetteUpdated });
     } catch (error) {
@@ -69,4 +73,22 @@ const deleteCassette = async (req, res, next) => {
     }
 }
 
-module.exports = { postCassette, getCassettes, getCassetteById, updateCassette, deleteCassette }
+/*const deleteCassetteOfATM = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        // const { denomination } = req.body;
+        //const carFound = await Car.findOne({ $or: [{_id: id}, {model}] });
+        const atm = await ATM.findById(id);
+        if (!atm) {
+            return res.status(400).json('No hay ningún ATM que coincida con el indicado');
+        }
+        //const carDeleted = await Car.findByIdAndDelete({$or: [{_id:id}, {model}]}, {new: true});
+        const cassette = await atm.find(denomination, {new: true});
+        console.log(cassette);
+        return res.status(200).json(cassette);
+    } catch (error) {
+        return res.status(400).json('⛔⛔⛔ ERROR en deleteCarOfPlayer');
+    }
+};*/
+
+module.exports = { postCassette, getCassettes, getCassetteByDenomination, updateCassette, deleteCassette }
