@@ -1,4 +1,5 @@
 const ATM = require('../models/atms')
+const Cassette = require('../models/cassettes')
 
 const postATM = async (req, res, next) => {
     try {
@@ -19,7 +20,7 @@ const getATMs = async (req, res, next) => {
     try {
         const allATMs = await ATM.find().populate('cassettes')
         if (!allATMs.length) {
-            return res.status(400).json('No hay ningún ATM instalado.')
+            return res.status(400).json({ message: 'No hay ningún ATM instalado.'})
         }
         return res.status(200).json({ message: 'Listado completo de ATMs.', allATMs })
     } catch (error) {
@@ -76,22 +77,5 @@ const deleteATM = async (req, res, next) => {
         return res.status(400).json('Fallo de deleteATM')
     }
 }
-
-/*const deleteATMOfUser = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const { cassettes } = req.body;
-        //const ATMFound = await ATM.findOne({ $or: [{_id: id}, {model}] });
-        const ATMFound = await ATM.find({cassettes});
-        if (!ATMFound) {
-            return res.status(400).json('No hay ningún cajetín que coincida con el modelo indicado');
-        }
-        //const carDeleted = await Car.findByIdAndDelete({$or: [{_id:id}, {model}]}, {new: true});
-        const ATMDeleted = await ATM.findByIdAndDelete(id, {cassettes}, {new: true});
-        return res.status(200).json(ATMDeleted);
-    } catch (error) {
-        return res.status(400).json('Fallo en deleteATMOfUser');
-    }
-};*/
 
 module.exports = { postATM, getATMs, getATMByUbication, updateATM, deleteATM }

@@ -46,7 +46,7 @@ const updateCassette = async (req, res, next) => {
         const { count } = req.body;
 
         if (count === 0 || count > 2500 ) {
-            return res.status(400).json('Se debe de introducir un mínimo de 1 billete y un máximo de 2500 billetes.')
+            return res.status(400).json({ message: 'Se debe de introducir un mínimo de 1 billete y un máximo de 2500 billetes.' })
         }
         
         const cassetteModify = new Cassette(req.body);
@@ -72,23 +72,5 @@ const deleteCassette = async (req, res, next) => {
         return res.status(400).json('Fallo de deleteCassette');
     }
 }
-
-/*const deleteCassetteOfATM = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        // const { denomination } = req.body;
-        //const carFound = await Car.findOne({ $or: [{_id: id}, {model}] });
-        const atm = await ATM.findById(id);
-        if (!atm) {
-            return res.status(400).json('No hay ningún ATM que coincida con el indicado');
-        }
-        //const carDeleted = await Car.findByIdAndDelete({$or: [{_id:id}, {model}]}, {new: true});
-        const cassette = await atm.find(denomination, {new: true});
-        console.log(cassette);
-        return res.status(200).json(cassette);
-    } catch (error) {
-        return res.status(400).json('⛔⛔⛔ ERROR en deleteCarOfPlayer');
-    }
-};*/
 
 module.exports = { postCassette, getCassettes, getCassetteByDenomination, updateCassette, deleteCassette }
