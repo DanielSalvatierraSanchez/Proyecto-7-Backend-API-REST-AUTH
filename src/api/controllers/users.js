@@ -7,16 +7,16 @@ const registerUser = async (req, res, next) => {
         const { userName, email } = req.body
 
         const newUser = new User(req.body)
-        const userDuplicated = await User.findOne({ $or: [{ userName }, { email }] })
+        const userDuplicated = await User.findOne({ $or: [{ userName }, { email }] }).populate('atms')
 
         if (userDuplicated) {
-            return res.status(400).json({ message: 'Nombre de usuario o Email duplicados.' })
+            return res.status(400).json({ message: 'El nombre de usuario o el email están en uso.' })
         }
         if (newUser.password.length < 8 || newUser.password.length > 16) {
             return res.status(400).json({ message: 'La contraseña debe de tener entre 8 y 16 caracteres.' })
         }
         if (newUser.role === 'admin') {
-            return res.status(400).json({ message: 'No tienes permisos para ser Admin.' })
+            return res.status(400).json({ message: 'No tienes permisos para tener el rol de Administrador.' })
         }
 
         const userSaved = await newUser.save()
@@ -74,7 +74,7 @@ const updateUser = async (req, res, next) => {
         if (email) { allParams.email = email }
 
         if (user._id.toString() !== id && user.role !== 'admin') {
-            return res.status(406).json({ message: 'No tienes permisos para actualizar este usuario.' })
+            return res.status(406).json({ message: 'No tienes permisos de Administrador para actualizar este usuario.' })
         }
 
         const userDuplicated = await User.findOne({ $or: [{userName}, {email}] })
@@ -101,7 +101,7 @@ const updateUser = async (req, res, next) => {
         }
 
         const userUpdated = await User.findByIdAndUpdate(id, allParams, { new: true })
-        return res.status(200).json({ message: 'Datos de usuario actualizados correctamente.', userUpdated })
+        return res.status(200).json({ message: 'Datos del usuario actualizados correctamente.', userUpdated })
     } catch (error) {
         return res.status(400).json('Fallo de updateUsers')
     }
@@ -113,14 +113,14 @@ const deleteUser = async (req, res, next) => {
         const { id } = req.params
 
         if (user._id.toString() !== id && user.role !== 'admin') {
-            return res.status(400).json({ message: 'No tienes permisos para eliminar el usuario.' })
+            return res.status(400).json({ message: 'No tienes permisos de Administrador para eliminar el usuario.' })
         }
 
         const userDeleted = await User.findByIdAndDelete(id)
         if (!userDeleted) {
-            return res.status(400).json({ message: 'No se ha encontrado ningún usuario.' })
+            return res.status(400).json({ message: 'No se ha encontrado a ese usuario.' })
         }
-        return res.status(200).json({ message: 'Usuario eliminado.', userDeleted })
+        return res.status(200).json({ message: 'Usuario eliminado correctamente.', userDeleted })
     } catch (error) {
         return res.status(400).json('Fallo en deleteUser.')
     }

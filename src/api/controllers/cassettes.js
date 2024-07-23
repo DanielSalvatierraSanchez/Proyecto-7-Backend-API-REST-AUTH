@@ -5,7 +5,7 @@ const postCassette = async (req, res, next) => {
         const { denomination, count } = req.body;
         const cassetteDuplicated = await Cassette.findOne({ denomination });
         if (cassetteDuplicated) {
-            return res.status(400).json({ message: `Ya existe un cajetín ${denomination}€, pon otro diferente.` })
+            return res.status(400).json({ message: `Ya existe un cajetín de ${denomination}€, instala otro diferente.` })
         }
         const newCassette = new Cassette(req.body);
         const cassetteSaved = await newCassette.save();
@@ -67,7 +67,11 @@ const deleteCassette = async (req, res, next) => {
     try {
         const { id } = req.params;
         const cassetteDeleted = await Cassette.findByIdAndDelete(id)
+        if (!cassetteDeleted) {
+            return res.status(400).json({ message: 'El cajetín ya no existe.'});
+        } else {
         return res.status(200).json({ message: 'Cajetín eliminado correctamente.', cassetteDeleted });
+        }
     } catch (error) {
         return res.status(400).json('Fallo de deleteCassette');
     }

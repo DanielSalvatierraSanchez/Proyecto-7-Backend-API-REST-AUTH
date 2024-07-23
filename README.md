@@ -5,7 +5,9 @@
 En este proyecto se debe de demostrar el aprendizaje de la parte inicial del Backend, 
 creando un servidor y conectando a la BBDD para posteriormente realizar un CRUD completo.
 
-[![N|Solid](https://moonlay.com/wp-content/uploads/2023/01/mongoDB.png)](https://nodesource.com/products/nsolid)[![N|Solid](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkucnJUfKnyTgCTQ-XEp_CbYIDzXJ_1b4BafS7alYn8v8duI9DMcv3zQvb_WF11dX-95M&usqp=CAU)](https://nodesource.com/products/nsolid)[![N|Solid](https://moonlay.com/wp-content/uploads/2023/01/node-JS.png)](https://nodesource.com/products/nsolid)
+[![N|Solid](https://moonlay.com/wp-content/uploads/2023/01/mongoDB.png)](https://nodesource.com/products/nsolid)
+[![N|Solid](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkucnJUfKnyTgCTQ-XEp_CbYIDzXJ_1b4BafS7alYn8v8duI9DMcv3zQvb_WF11dX-95M&usqp=CAU)](https://nodesource.com/products/nsolid)
+[![N|Solid](https://moonlay.com/wp-content/uploads/2023/01/node-JS.png)](https://nodesource.com/products/nsolid)
 
 ### Requisitos mínimos:
 
@@ -35,6 +37,7 @@ DB_URL=mongodb+srv://dani:<password>@cluster0.a9lsjqe.mongodb.net/?retryWrites=t
 ```
 
 - Middlewares:
+
 > isAuth (Verifica si el usuario tiene creado el Token)
 > isAdmin (Verifica si el usuario tiene el "role" de "admin")
 

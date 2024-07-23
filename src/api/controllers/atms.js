@@ -5,7 +5,7 @@ const postATM = async (req, res, next) => {
         const { model } = req.body
         const ATMDuplicated = await ATM.findOne({ model })
         if (ATMDuplicated) {
-            return res.status(400).json({ message: `El ATM ${model} ya existe, crea otro diferente.` })
+            return res.status(400).json({ message: `El ATM ${model} ya existe, instala otro diferente.` })
         }
         const newATM = new ATM(req.body)
         const ATMSaved = await newATM.save()
