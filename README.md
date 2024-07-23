@@ -99,7 +99,7 @@ npm run seeds ("node ./src/utils/seeds/seeds.js")
 | NAME | METHOD | ENDPOINT | BODY | MIDDLEWARE |
 | --- | --- | --- | --- | --- |
 | POST ATM | POST | /api/v1/atms/register | { **type**, **model**, **ubication**, image, cassettes } | isAdmin |
-| GET ATM BY UBICATION | GET | /api/v1/atms/getBy/:ubication | { **ubication** } | isAuth |
+| GET ATMs BY UBICATION | GET | /api/v1/atms/getBy/:ubication | { **ubication** } | isAuth |
 | ALL ATMs | GET | /api/v1/atms/ | --- | isAuth |
 | UPDATE ATM | PUT | /api/v1/atms/update/:id | { **atms data** } | isAdmin |
 | DELETE ATM | DELETE | /api/v1/atms/delete/:id | --- | isAdmin |
@@ -134,10 +134,10 @@ npm run seeds ("node ./src/utils/seeds/seeds.js")
 
 | NAME | METHOD | ENDPOINT | BODY | MIDDLEWARE |
 | --- | --- | --- | --- | --- |
-| POST CASSETTE | POST | /api/v1/cassettes/register | { **type**, **model**, **ubication**, image, cassettes } | isAdmin |
-| GET CASSETTE BY DENOMINATION | GET | /api/v1/cassettes/getBy/:denomination | { **ubication** } | isAuth |
+| POST CASSETTE | POST | /api/v1/cassettes/register | { **denomination**, **count**, image } | isAdmin |
+| GET CASSETTES BY DENOMINATION | GET | /api/v1/cassettes/getBy/:denomination | { **denomination** } | isAuth |
 | ALL CASSETTES | GET | /api/v1/cassettes/ | --- | isAuth |
-| UPDATE CASSETTE | PUT | /api/v1/cassettes/update/:id | { **atms data** } | isAuth |
+| UPDATE CASSETTE | PUT | /api/v1/cassettes/update/:id | { **cassettes data** } | isAuth |
 | DELETE CASSETTE | DELETE | /api/v1/cassettes/delete/:id | --- | isAdmin |
 
 
