@@ -35,6 +35,7 @@ DB_URL=mongodb+srv://dani:<password>@cluster0.a9lsjqe.mongodb.net/?retryWrites=t
 
 - Middlewares:
 > isAuth (Verifica si el usuario tiene creado el Token)
+> 
 > isAdmin (Verifica si el usuario tiene el "role" de "admin")
 
 - Dependencias del proyecto:
