@@ -2,8 +2,7 @@
 
 ## Descripción:
 
-En este proyecto se debe de demostrar el aprendizaje de la parte inicial del Backend, 
-creando un servidor y conectando a la BBDD para posteriormente realizar un CRUD completo.
+En este proyecto se debe de demostrar los conocimientos del Backend adquiridos e implementar autentificaciones y encriptaciones con JWT y BCRYPT.
 
 [![N|Solid](https://moonlay.com/wp-content/uploads/2023/01/mongoDB.png)](https://nodesource.com/products/nsolid)
 [![N|Solid](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkucnJUfKnyTgCTQ-XEp_CbYIDzXJ_1b4BafS7alYn8v8duI9DMcv3zQvb_WF11dX-95M&usqp=CAU)](https://nodesource.com/products/nsolid)
@@ -39,6 +38,7 @@ DB_URL=mongodb+srv://dani:<password>@cluster0.a9lsjqe.mongodb.net/?retryWrites=t
 - Middlewares:
 
 > isAuth (Verifica si el usuario tiene creado el Token)
+> 
 > isAdmin (Verifica si el usuario tiene el "role" de "admin")
 
 - Dependencias del proyecto:
@@ -102,7 +102,7 @@ npm run seeds ("node ./src/utils/seeds/seeds.js")
 | NAME | METHOD | ENDPOINT | BODY | MIDDLEWARE |
 | --- | --- | --- | --- | --- |
 | POST ATM | POST | /api/v1/atms/register | { **type**, **model**, **ubication**, image, cassettes } | isAdmin |
-| GET ATM BY UBICATION | GET | /api/v1/atms/getBy/:ubication | { **ubication** } | isAuth |
+| GET ATMs BY UBICATION | GET | /api/v1/atms/getBy/:ubication | { **ubication** } | isAuth |
 | ALL ATMs | GET | /api/v1/atms/ | --- | isAuth |
 | UPDATE ATM | PUT | /api/v1/atms/update/:id | { **atms data** } | isAdmin |
 | DELETE ATM | DELETE | /api/v1/atms/delete/:id | --- | isAdmin |
@@ -114,7 +114,7 @@ npm run seeds ("node ./src/utils/seeds/seeds.js")
 ```
     {
         type: { type: String, required: true, enum: [ 'PersonaS', 'SelfServ' ] },
-        model: { type: Number, required: true, enum: [ 5870, 5875, 5885, 5886, 5877, 6622, 6626, 6627,     6632, 6634, 6682, 6684 ] },
+        model: { type: Number, required: true, enum: [ 5870, 5875, 5885, 5886, 5877, 6622, 6626, 6627, 6632, 6634, 6682, 6684 ] },
         ubication: { type: String, required: true, enum: [ 'Front Access', 'Rear Access'] },
         image: { type: String, default: '/assets/Atms.jpeg'},
         cassettes: [{ type: mongoose.Types.ObjectId, ref: 'cassettes' }]
@@ -137,10 +137,10 @@ npm run seeds ("node ./src/utils/seeds/seeds.js")
 
 | NAME | METHOD | ENDPOINT | BODY | MIDDLEWARE |
 | --- | --- | --- | --- | --- |
-| POST CASSETTE | POST | /api/v1/cassettes/register | { **type**, **model**, **ubication**, image, cassettes } | isAdmin |
-| GET CASSETTE BY DENOMINATION | GET | /api/v1/cassettes/getBy/:denomination | { **ubication** } | isAuth |
+| POST CASSETTE | POST | /api/v1/cassettes/register | { **denomination**, **count**, image } | isAdmin |
+| GET CASSETTES BY DENOMINATION | GET | /api/v1/cassettes/getBy/:denomination | { **denomination** } | isAuth |
 | ALL CASSETTES | GET | /api/v1/cassettes/ | --- | isAuth |
-| UPDATE CASSETTE | PUT | /api/v1/cassettes/update/:id | { **atms data** } | isAuth |
+| UPDATE CASSETTE | PUT | /api/v1/cassettes/update/:id | { **cassettes data** } | isAuth |
 | DELETE CASSETTE | DELETE | /api/v1/cassettes/delete/:id | --- | isAdmin |
 
 
