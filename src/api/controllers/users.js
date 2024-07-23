@@ -5,10 +5,9 @@ const User = require('../models/users')
 const registerUser = async (req, res, next) => {
     try {
         const { userName, email } = req.body
+
         const newUser = new User(req.body)
-        const userDuplicated = await User.findOne({
-            $or: [{ userName }, { email }]
-        })
+        const userDuplicated = await User.findOne({ $or: [{ userName }, { email }] })
 
         if (userDuplicated) {
             return res.status(400).json({ message: 'Nombre de usuario o Email duplicados.' })
@@ -65,7 +64,7 @@ const allUsers = async (req, res, next) => {
 }
 }
 
-const updateUsers = async (req, res, next) => {
+const updateUser = async (req, res, next) => {
     try {
         const user = req.user
         const { id } = req.params
@@ -127,4 +126,4 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-module.exports = { registerUser, loginUser, allUsers, updateUsers, deleteUser }
+module.exports = { registerUser, loginUser, allUsers, updateUser, deleteUser }

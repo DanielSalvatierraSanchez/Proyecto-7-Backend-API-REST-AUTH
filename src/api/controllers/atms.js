@@ -1,5 +1,4 @@
 const ATM = require('../models/atms')
-const Cassette = require('../models/cassettes')
 
 const postATM = async (req, res, next) => {
     try {

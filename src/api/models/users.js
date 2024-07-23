@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
     {
         userName: { type: String, required: true, minLength: 1, maxLength: 25 },
         email: { type: String, required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-        password: { type: String, required: true },
+        password: { type: String, required: true, minLength: 8, maxLength: 16 },
         role: { type: String, enum: ["admin", "user"], default: "user" },
         atms: [{ type: mongoose.Types.ObjectId, ref: "atms" }]
     });
