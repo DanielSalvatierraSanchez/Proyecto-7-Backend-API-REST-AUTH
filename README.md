@@ -73,8 +73,8 @@ npm run seeds ("node ./src/utils/seeds/seeds.js")
 ```
     {      
         userName: { type: String, required: true, minLength: 1, maxLength: 25 },
-        email: { type: String, required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-        password: { type: String, required: true, minLength: 8, maxLength: 16 },
+        email: { type: String, required: true },
+        password: { type: String, required: true, minLength: 8 },
         role: { type: String, enum: ["admin", "user"], default: "user" },
         atms: [{ type: mongoose.Types.ObjectId, ref: "atms" }]
     }
@@ -167,5 +167,5 @@ npm run seeds ("node ./src/utils/seeds/seeds.js")
 
 ##### DELETE /api/v1/cassettes/delete/:id
 -  Para eliminar un Cassette será necesario haber realizado el Login como "admin".
--  
+
 
